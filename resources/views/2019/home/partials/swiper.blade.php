@@ -9,7 +9,46 @@
         <div class="row">
 
 
-            @if (config('app.subscriptions.enabled') === true)
+
+
+
+
+
+        @if (training_enabled())
+            <div class="col-md-7 col-lg-8 text-left subscribe-banner-txt">
+                <br>
+                <h3 class="">Prezados(as) Parlamentares Juvenis da Edição de {{ get_current_year() }},</h3>
+
+                <br>
+                <p class="lead">
+                    No decorrer das próximas duas semanas vocês terão a oportunidade de ampliar seus conhecimentos aprendendo um pouco sobre técnica legislativa, instrumento essencial para orientá-los (as) na construção do seus projetos de lei.
+                </p>
+                <p class="lead">
+                    A capacitação on-line é uma atividade fundamental para aprimorar os seus desempenhos na etapa de capacitação presencial.
+                </p>
+                <p class="lead">
+                    A capacitação on-line será dividida em dois módulos semanais compostos de videoaula e questionário.
+                </p>
+                <p class="lead">
+                    Para conclusão de cada módulo é necessário que vocês assistam a videoaula e preencham o formulário final que os habilitará a realizar o próximo módulo.
+
+                </p>
+
+
+                <a class="btn btn-primary btn-lg" href="/training" role="button">  <i class="fas fa-chalkboard-teacher"></i>Iniciar Capacitação </a>
+            </div>
+
+            <div class="d-none d-md-block col-md-5 col-lg-4 subscribe-banner-img ">
+                <img src="/templates/{{ get_current_year() }}/assets/img/seminar.png" class="img-fluid">
+            </div>
+        @endIf
+
+
+
+
+
+
+        @if (config('app.subscriptions.enabled') === true)
                 <div class="col-md-6 col-lg-8 text-left subscribe-banner-txt">
                     <h3 class="">Inscrições Abertas</h3>
 
@@ -30,27 +69,30 @@
 
             @if (election_enabled())
 
-                <!-------Banner da votação Ativa------->
-{{--
-                <div class="d-none d-md-block col-md-5 col-lg-4 subscribe-banner-img ">
-                    <img src="/templates/{{ get_current_year() }}/assets/img/vote.png" class="img-fluid">
-                </div>
 
-                <div class="col-md-7 col-lg-8 text-left subscribe-banner-txt">
-                    <h3 class="">Votação do Segundo Turno</h3>
+            <!-------Banner da votação Ativa------->
+                {{--
+            <div class="d-none d-md-block col-md-5 col-lg-4 subscribe-banner-img ">
+                <img src="/templates/{{ get_current_year() }}/assets/img/vote.png" class="img-fluid">
+            </div>
 
-                    --}}{{--<p class="lead">Até 7 de junho</p>--}}{{--<br>
-                    <p class="lead">Já está aberta a votação para o Segundo Turno do Parlamento Juvenil</p>
+            <div class="col-md-7 col-lg-8 text-left subscribe-banner-txt">
+                <h3 class="">Votação do Segundo Turno</h3>
 
-                    <br> &nbsp;<br> &nbsp;<br>
+                --}}{{--<p class="lead">Até 7 de junho</p>--}}{{--<br>
+                <p class="lead">Já está aberta a votação para o Segundo Turno do Parlamento Juvenil</p>
 
-                    <a class="btn btn-primary btn-lg"  href="{{ route('vote.index') }}" role="button">  <i class="fas fa-plus-circle"></i> Vote Aqui </a>
-                </div>
-                --}}
+                <br> &nbsp;<br> &nbsp;<br>
+
+                <a class="btn btn-primary btn-lg"  href="{{ route('vote.index') }}" role="button">  <i class="fas fa-plus-circle"></i> Vote Aqui </a>
+            </div>
+
+            --}}
 
 
-                    <!-------Banner da votação Suplementar------->
+            <!-------Banner da votação Suplementar------->
 
+            {{--
                     <div class="d-none d-md-block col-md-5 col-lg-4 subscribe-banner-img ">
                         <img src="/templates/{{ get_current_year() }}/assets/img/vote.png" class="img-fluid">
                     </div>
@@ -58,18 +100,20 @@
                     <div class="col-md-7 col-lg-8 text-left subscribe-banner-txt">
                         <h3 class="">Votação do Suplementar</h3>
 
-                        {{--<p class="lead">Até 7 de junho</p>--}}<br>
+                        <br>
                         <p class="lead">Esta aberta a votação suplementar para o Segundo Turno dos municípios de Itaperuna e Valença</p>
 
                         <br> &nbsp;<br> &nbsp;<br>
 
                         <a class="btn btn-primary btn-lg"  href="{{ route('vote.index') }}" role="button">  <i class="fas fa-plus-circle"></i> Vote Aqui </a>
                     </div>
-
+                --}}
             @endif
 
 
-{{--
+
+        <!-------Banner de Resultados da Votação do Segundo Turno------->
+            {{--
 
                 <div class="d-none d-md-block col-md-5 col-lg-4 subscribe-banner-img ">
                     <img src="/templates/{{ get_current_year() }}/assets/img/results.png" class="img-fluid">
@@ -86,14 +130,15 @@
 
                     <a class="btn btn-primary btn-lg"  href="{{ route('vote.elected', ['round' => 2]) }}" role="button">  <i class="fas fa-plus-circle"></i> Conheça os Deputados Eleitos </a>
                 </div>
-
 --}}
 
 
+        <!-------Banner de Resultados da Votação - RESULTADOS FINAIS------->
 
+            {{--
                 <div class="col-md-7 col-lg-8 text-left subscribe-banner-txt">
                     <br>
-                    <h3 class="">Resultados Finais</h3>
+                    <h3 class="">Resultados Finais </h3>
 
                     <br>
                     <p class="lead">Baixe Aqui o Resultado Final da Eleição do Parlamento Juvenil {{ get_current_year() }}</p>
@@ -106,6 +151,13 @@
                 <div class="d-none d-md-block col-md-5 col-lg-4 subscribe-banner-img ">
                     <img src="/templates/{{ get_current_year() }}/assets/img/results.png" class="img-fluid">
                 </div>
+--}}
+
+
+
+
+
+
 
 
 
