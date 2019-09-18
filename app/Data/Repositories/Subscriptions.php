@@ -362,7 +362,8 @@ class Subscriptions extends Repository
             $markerCount = 0;
             $lastSubscriptionForMarker = null;
 
-            Subscription::where('year', $this->getCurrentYear())->where('auto_elected', true)->update([$electedField => false]);
+            //Desabilitei a atualização dos eleitos ao entrar na aba de eleitos para que possa colocar os suplentes e outros eleitos manualmente (Bruno - 17/09/2019)
+            //Subscription::where('year', $this->getCurrentYear())->where('auto_elected', true)->update([$electedField => false]);
 
             foreach ($votes as $vote) {
                 if ($currentMarker !== $this->getMarker($vote, $votePer)) {
@@ -468,6 +469,7 @@ class Subscriptions extends Repository
                 ->join('students', 'students.id', '=' , 'subscriptions.student_id')
                 ->where(function ($query) {
                     $query->where('elected_1nd', true);
+                    $query->where('elected_2nd', true);
                 })
                 ->where('year', $year)
                 ->orderBy('votes_2nd', 'desc')
