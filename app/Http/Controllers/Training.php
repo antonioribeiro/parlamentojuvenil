@@ -24,7 +24,7 @@ class Training extends BaseController
 
         $this->trainingRepository = $trainingRepository;
 
-        $this->user = $user = loggedUser()->subscription;
+        if(loggedUser() && loggedUser()->subscription) $this->user = $user = loggedUser()->subscription;
     }
 
     public function index()

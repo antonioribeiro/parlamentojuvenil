@@ -15,7 +15,7 @@ return [
     'url' => env('URL_BASE'),
 
     'election' => [
-        'enabled' => env('ELECTION_ENABLED'),
+        'enabled' => env('ELECTION_ENABLED', false),
         'start' => env('ELECTION_START'),
         'end' => env('ELECTION_END'),
         'round' => env('ELECTION_ROUND'),

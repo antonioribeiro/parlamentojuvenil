@@ -18,7 +18,7 @@
                 <div class="offset-1 col-10 text-center">
 
                     <div class="capacitacao-greatings">
-                        Olá <strong><span class="capacitacao-username">{{ loggedUser()->user->name }},</span></strong>
+                        Olá <strong><span class="capacitacao-username">{{ loggedUser()->user->name ?? 'visitante' }},</span></strong>
                     </div>
 
                     <p>
@@ -64,14 +64,16 @@
                                             <span style="font-size:22px; margin-left: 10px;" class="pull-right showopacity glyphicon glyphicon-list-alt"></span>
                                         </a>
 
-                                        <a
-                                                href="{{ $course['relations']['quiz'][0]['watch-url'] }}"
-                                                class="btn ecstasy-orange btn-apostilas"
-                                                {{ !$course['relations']['quiz'][0]['visible'] ? 'disabled="disabled"' : '' }}
-                                        >
-                                            Quiz
-                                            <span style="font-size:22px; margin-left: 10px;" class="pull-right showopacity glyphicon glyphicon-list-alt"></span>
-                                        </a>
+                                        @if(loggedUser()->user->name ?? null) {{--Se está logado--}}
+                                            <a
+                                                    href="{{ $course['relations']['quiz'][0]['watch-url'] }}"
+                                                    class="btn ecstasy-orange btn-apostilas"
+                                                    {{ !$course['relations']['quiz'][0]['visible'] ? 'disabled="disabled"' : '' }}
+                                            >
+                                                Quiz
+                                                <span style="font-size:22px; margin-left: 10px;" class="pull-right showopacity glyphicon glyphicon-list-alt"></span>
+                                            </a>
+                                        @endIf
                                     </p>
                                 </div>
 

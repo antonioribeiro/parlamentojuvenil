@@ -150,7 +150,7 @@ function logout() {
 }
 
 function election_enabled() {
-    return now_in_date_range(config('app.election.start'), config('app.election.end'));
+    return config('app.election.enabled') && now_in_date_range(config('app.election.start'), config('app.election.end'));
 }
 
 function flag_contest_subscription_enabled() {

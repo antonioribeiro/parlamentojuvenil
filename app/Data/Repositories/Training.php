@@ -56,14 +56,13 @@ class Training extends Repository
 
     public function getResult($year, $id, $subscription)
     {
-        $answers = Watched::where('item_id', 'like', $id.'.%')
-                      ->where('year', $year)
-                      ->where('subscription_id', $subscription->id)
-                      ->get()
-                      ->toArray();
+        $answers = Watched::where('item_id', 'like', $id . '.%')
+            ->where('year', $year)
+            ->where('subscription_id', $subscription->id)
+            ->get()
+            ->toArray();
 
-        foreach ($answers as $key => $item)
-        {
+        foreach ($answers as $key => $item) {
             $answers[$key]['correct'] = $answers[$key]['answer'] == $this->getAnswerFor($id, $subscription, $answers[$key]['item_id'], get_current_year());
         }
 
@@ -89,19 +88,23 @@ class Training extends Repository
                 foreach ($relation as $elementKey => $element) {
                     $element['id'] = "{$item['id']}.{$element['id']}";
                     $element['watch-url'] = route('training.watch', ['video' => $element['id']]);
-                    $element['watched'] = Watched::where('subscription_id', $subscription->id)->where('year', $year)->where('item_id', $element['id'])->first();
-                    $element['visible'] = $visible || $element['watched'];
                     $element['year'] = $year;
 
-                    $done = $done && $element['watched'];
-
-                    if($relationKey == 'quiz')
-                    {
-                        $element['answer'] = $element['watched'] ? $element['watched']->answer : null;
+                    if(loggedUser()->isCongressman()){ //Permitindo usuário não logado
+                        $element['watched'] = Watched::where('subscription_id', $subscription->id)->where('year', $year)->where('item_id', $element['id'])->first();
                     }
 
-                    $visible = $element['watched'] !== null;
+                    $element['visible'] = $visible || $element['watched'];
 
+                    if(loggedUser()->isCongressman()){ //Permitindo usuário não logado
+                        $done = $done && $element['watched'];
+
+                        if ($relationKey == 'quiz') {
+                            $element['answer'] = $element['watched'] ? $element['watched']->answer : null;
+                        }
+
+                        $visible = $element['watched'] !== null;
+                    }
                     $item['relations'][$relationKey][$elementKey] = $element;
                 }
             }
@@ -116,25 +119,26 @@ class Training extends Repository
 
     public function markAsWatched($item, $answer = null, $year = null)
     {
-        $year = get_current_year($year);
+        if(loggedUser()->isCongressman()) { //Permitindo usuário não logado
+            $year = get_current_year($year);
 
-        $watched = Watched::where('subscription_id', $subscription_id = loggedUser()->subscription->id)
-                    ->where('year', $year)
-                    ->where('item_id', $item)
-                    ->first();
+            $watched = Watched::where('subscription_id', $subscription_id = loggedUser()->subscription->id)
+                ->where('year', $year)
+                ->where('item_id', $item)
+                ->first();
 
-        if (!$watched)
-        {
-            $watched = Watched::create([
-                'subscription_id' => $subscription_id,
-                'item_id' => $item,
-                'year' => $year,
-            ]);
+            if (!$watched) {
+                $watched = Watched::create([
+                    'subscription_id' => $subscription_id,
+                    'item_id' => $item,
+                    'year' => $year,
+                ]);
+            }
+
+            $watched->answer = $answer;
+
+            $watched->save();
         }
-
-        $watched->answer = $answer;
-
-        $watched->save();
     }
 
     public function quizDone($year, $subscription, $id)
